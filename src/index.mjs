@@ -9,10 +9,8 @@ if(isBrowser || isJsDom){
     window.workersReady = {};
     const Worker = function(script, options={}){
         if(options.inheritMap){
-            const mapEls = [...document.head.getElementsByTagName('script')].filter(
-                (el)=> el.getAttribute('type') === 'importmap'
-            );
-            options.map = JSON.parse(mapEls[0].innerHTML);
+            const mapEl = document.querySelector('script[type="importmap"]');
+            options.map = JSON.parse(mapEl.innerHTML);
         }
         if(options.map){
             const iframe = document.createElement('iframe');
