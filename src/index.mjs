@@ -1,18 +1,18 @@
-import { isBrowser, isJsDom } from 'browser-or-node';
+import {isBrowser, isJsDom} from 'browser-or-node';
 import * as mod from 'module';
 let internalRequire = null;
-const ensureRequire = ()=> (!internalRequire) && (
+const ensureRequire = () => (!internalRequire) && (
     internalRequire = mod.createRequire(import.meta.url)
 );
 let ThisWorker = null;
-if(isBrowser || isJsDom){
+if (isBrowser || isJsDom) {
     window.workersReady = {};
-    const Worker = function(script, options={}){
-        if(options.inheritMap){
+    function Worker(script, options = {}) {
+        if (options.inheritMap) {
             const mapEl = document.querySelector('script[type="importmap"]');
             options.map = JSON.parse(mapEl.innerHTML);
         }
-        if(options.map){
+        if (options.map) {
             const iframe = document.createElement('iframe');
             const callbackId = `cb${Math.floor(Math.random()*1000000000)}`;
             const terminateId = `tm${Math.floor(Math.random()*1000000000)}`;
@@ -50,21 +50,20 @@ if(isBrowser || isJsDom){
                 window.workersReady[terminateId]();
             };
             return worker;
-        }else{
+        } else {
             return new window.Worker(script, options);
         }
     };
     ThisWorker = Worker;
-}else{
+} else {
     ensureRequire();
     const NodeWorker = internalRequire('web-worker');
-    const Worker = function(incomingPath, options={}){
-        const filePath = incomingPath[0] === '.'?
-            new URL(incomingPath, options.root || import.meta.url).pathname:
-            incomingPath;
+    function Worker(incomingPath, options = {}) {
+        const filePath = incomingPath[0] === '.'
+          ? new URL(incomingPath, options.root || import.meta.url).pathname
+          : incomingPath;
         return new NodeWorker(filePath, options);
     };
     ThisWorker = Worker;
 }
-
 export const Worker = ThisWorker;
