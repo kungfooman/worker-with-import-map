@@ -16,7 +16,7 @@ if(isBrowser || isJsDom){
             const iframe = document.createElement('iframe');
             const callbackId = `cb${Math.floor(Math.random()*1000000000)}`;
             const terminateId = `tm${Math.floor(Math.random()*1000000000)}`;
-            const worker = {};
+            const worker = {iframe, callbackId, terminateId};
             window.workersReady[terminateId] = function(window){
                 iframe.remove();
             };
@@ -29,11 +29,11 @@ if(isBrowser || isJsDom){
                 <script type="importmap">${JSON.stringify(options.map)}</script>
             </head><body onload="parent.workersReady.${callbackId}(this.window)"><script>
                 window.self = {};
-                window.self.postMessage = (e)=>{
-                    return parent.postMessage(e);
+                window.self.postMessage = (e) => {
+                    parent.postMessage(e);
                 };
-                window.onmessage = (e)=>{
-                    if(window.self.onmessage) window.self.onmessage(e);
+                window.onmessage = (e) => {
+                    window.self?.onmessage(e);
                 };
             </script><script type="module" src="${script}"></script></body></html>`;
             document.body.appendChild(iframe);
@@ -44,8 +44,7 @@ if(isBrowser || isJsDom){
                 iframe.contentWindow.postMessage(data, '*');
             };
             window.onmessage = function(e) {
-                if(typeof e.data !== 'string') return;
-                if(worker.onmessage) worker.onmessage(e);
+                worker?.onmessage(e);
             };
             worker.terminate = ()=>{
                 window.workersReady[terminateId]();
