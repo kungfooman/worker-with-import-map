@@ -1,6 +1,8 @@
 class EventHandler {
   /** @type {Function|null} */
   onclick = null;
+  /** @type {Function|null} */
+  onmessage = null;
   /** @type {Record<string, Set<Function>>} */
   events = {};
   /**

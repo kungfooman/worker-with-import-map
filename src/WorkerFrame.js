@@ -1,3 +1,4 @@
+import {EventHandler} from './EventHandler.js';
 window.workersReady = {};
 class WorkerFrame {
   debug = false;
@@ -21,21 +22,28 @@ class WorkerFrame {
         resolve();
       };
     });
-    const html = `<html><head>
-        <script type="importmap">${JSON.stringify(options.map)}</script>
-    </head><body onload="parent.workersReady.${callbackId}(this.window)"><script>
-        window.self = {
-          postMessage(e) {
-            parent.postMessage(e);
-          },
-          addEventListener(type, listener) {
-            console.log("window.self.addEventListener todo", {type, listener});
-          }
-        };
-        window.onmessage = (e) => {
-          window.self?.onmessage(e);
-        };
-    </script><script type="module" src="${script}"></script></body></html>`;
+    const html = `
+<html>
+  <head>
+      <script type="importmap">${JSON.stringify(options.map)}</script>
+  </head>
+  <body onload="parent.workersReady.${callbackId}(this.window)">
+    <script>
+      ${EventHandler};
+      class Self extends EventHandler {
+        postMessage(e) {
+          parent.postMessage(e);
+        }
+      };
+      const self = new Self();
+      window.self = self;
+      window.onmessage = (e) => {
+        self.dispatchEvent(e);
+      };
+    </script>
+    <script type="module" src="${script}"></script>
+  </body>
+</html>`;
     if (!this.debug) {
       iframe.style.display = 'none';
     }
