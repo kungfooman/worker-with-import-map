@@ -1,11 +1,12 @@
 import {EventHandler} from './EventHandler.js';
 window.workersReady = {};
-class WorkerFrame {
+class WorkerFrame extends EventHandler {
   debug = false;
   iframe = document.createElement('iframe');
   callbackId = `cb${Math.floor(Math.random()*1000000000)}`;
   terminateId = `tm${Math.floor(Math.random()*1000000000)}`;
   constructor(script, options = {}) {
+    super();
     const {iframe, callbackId, terminateId} = this;
     if (options.inheritMap) {
       const mapEl = document.querySelector('script[type="importmap"]');
@@ -52,7 +53,7 @@ class WorkerFrame {
     iframe.contentWindow.document.write(html);
     iframe.contentWindow.document.close();
     window.onmessage = (e) => {
-      this?.onmessage(e);
+      this.dispatchEvent(e);
     };
   }
   postMessage(data) {
