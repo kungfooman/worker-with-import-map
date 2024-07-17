@@ -12,3 +12,9 @@ self.addEventListener('message', (e) => {
     message: `Worker received: ${data}`
   });
 });
+setInterval(() => {
+  self.postMessage({
+      status: `test status from test-worker-script.js ${Date.now()}`,
+      output: `test output from test-worker-script.js ${Date.now()}`,
+  });
+}, 2000);

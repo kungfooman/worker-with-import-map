@@ -13,3 +13,9 @@ self.addEventListener('message', (e) => {
     message: `Worker received: ${data} and add(1, 2) is ${add(1, 2)}`
   });
 });
+setInterval(() => {
+  self.postMessage({
+      status: `test status from test-workerframe-script.js ${Date.now()}`,
+      output: `test output from test-workerframe-script.js ${Date.now()}`,
+  });
+}, 2000);

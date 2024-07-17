@@ -17,17 +17,23 @@
           // WorkerFrame...
           import {Worker as WorkerFrame} from 'esm-worker';
           console.log("Got ESM Worker", Worker);
-          const workerFrame = new WorkerFrame('./test-worker-script.js', {type: 'module', inheritMap: true});
+          const workerFrame = new WorkerFrame('./test-workerframe-script.js', {type: 'module', inheritMap: true});
           workerFrame.onmessage = (e) => {
-            console.log("Got e.data", e.data);
+            console.log("[workerFrame.onmessage] workerFrame got e.data", e.data);
           };
+          workerFrame.addEventListener('message', (e) => {
+            console.log("[workerFrame.addEventListener('message', cb)] workerFrame got e.data", e.data);
+          });
           window.workerFrame = workerFrame;
           console.log('window.workerFrame', window.workerFrame);
           // Worker...
           const worker = new Worker('./test-worker-script.js', {type: 'module'});
           worker.onmessage = (e) => {
-            console.log("Got e.data", e.data);
+            console.log("[worker.onmessage] worker got e.data", e.data);
           };
+          worker.addEventListener('message', (e) => {
+            console.log("[worker.addEventListener('message', cb)] worker got e.data", e.data);
+          });
           window.worker = worker;
           console.log('window.worker', window.worker);
         </script>
