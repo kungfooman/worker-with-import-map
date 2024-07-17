@@ -13,34 +13,26 @@
             "esm-worker": "../src/index.mjs",
             "calculator": "./calculator.js"
         }}</script>
-        <script type="module">
-          // WorkerFrame...
-          import {Worker as WorkerFrame} from 'esm-worker';
-          console.log("Got ESM Worker", Worker);
-          const workerFrame = new WorkerFrame('./test-worker-script.js', {type: 'module', inheritMap: true});
-          workerFrame.onmessage = (e) => {
-            console.log("Got e.data", e.data);
-          };
-          window.workerFrame = workerFrame;
-          console.log('window.workerFrame', window.workerFrame);
-          // Worker...
-          const worker = new Worker('./test-worker-script.js', {type: 'module'});
-          worker.onmessage = (e) => {
-            console.log("Got e.data", e.data);
-          };
-          window.worker = worker;
-          console.log('window.worker', window.worker);
-        </script>
+        <style>
+          body {
+            background-color: #F5F5F5;
+          }
+          textarea {
+            width: 90%;
+            height: 200px;
+          }
+        </style>
+        <script type="module" src="test.js"></script>
     </head>
     <body>
-      <h1>worker</h1>
+      <h1>Worker</h1>
       <button onclick="worker.postMessage('aaa')">Send 'aaa'</button>
-      <button>B</button>
-      <button>C</button>
+      <button onclick="worker.postMessage('bbb')">Send 'bbb'</button>
+      <button onclick="worker.postMessage('ccc')">Send 'ccc'</button>
       <hr>
-      <h1>workerFrame</h1>
+      <h1>WorkerFrame</h1>
       <button onclick="workerFrame.postMessage('aaa')">Send 'aaa'</button>
-      <button>B</button>
-      <button>C</button>
+      <button onclick="workerFrame.postMessage('bbb')">Send 'bbb'</button>
+      <button onclick="workerFrame.postMessage('ccc')">Send 'ccc'</button>
     </body>
 </html>
