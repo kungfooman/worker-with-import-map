@@ -1,6 +1,6 @@
 {
     "name": "@kungfooman/esm-worker",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "type": "module",
     "homepage": "https://github.com/kungfooman/esm-worker",
     "description": "Use importmaps in a worker interface",
