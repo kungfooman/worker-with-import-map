@@ -1,8 +1,7 @@
 // WorkerFrame...
 import {WorkerWithImportMapViaInlineFrame, WorkerWithImportMapViaBedfordsShim} from 'esm-worker';
 const url = new URL('./test-workerframe-script.js', import.meta.url);
-//const workerFrame = new WorkerWithImportMapViaBedfordsShim(url, {type: 'module', importMap: 'inherit'});
-const workerFrame = new WorkerWithImportMapViaInlineFrame('./test-workerframe-script.js', {type: 'module', inheritMap: true});
+const workerFrame = new WorkerWithImportMapViaBedfordsShim(url, {type: 'module', importMap: 'inherit'});
 function stringify(_) {
   // return JSON.stringify(_, null, 2);
   return JSON.stringify(_);
