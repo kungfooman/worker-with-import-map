@@ -1,18 +1,20 @@
 {
-    "name": "@kungfooman/esm-worker",
-    "version": "0.2.0",
+    "name": "worker-with-import-map",
+    "version": "1.0.2",
     "type": "module",
-    "homepage": "https://github.com/kungfooman/esm-worker",
+    "homepage": "https://github.com/kungfooman/worker-with-import-map",
     "description": "Use importmaps in a worker interface",
-    "keywords": ["Worker", "importmap"],
-    "author": "Abbey Hawk Sparrow <khrome>(http://abbeyhawksparrow.com)",
-    "contributors": ["Hermann Rolfes <kungfooman>"],
+    "keywords": ["Worker", "with", "importmap", "import", "map", "ESM", "ESM shim", "polyfill"],
+    "author": "Hermann Rolfes <kungfooman>",
+    "contributors": [
+        "Abbey Hawk Sparrow <khrome>(http://abbeyhawksparrow.com)"
+    ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:kungfooman/esm-worker.git"
+        "url": "git@github.com:kungfooman/worker-with-import-map.git"
     },
     "bugs": {
-        "url": "https://github.com/kungfooman/esm-worker/issues"
+        "url": "https://github.com/kungfooman/worker-with-import-map/issues"
     },
     "license": "MIT",
     "devDependencies": {
