@@ -8,7 +8,7 @@ self.addEventListener('message', function(e) {
         if (val[0] === '.') {
           const url = baseURL + '/' + val;
           importMap.imports[key] = url;
-          console.log(`Update baseURL from ${val} to ${url}`);
+          // console.log(`Update baseURL from ${val} to ${url}`);
         }
       }
     }
@@ -16,7 +16,7 @@ self.addEventListener('message', function(e) {
     importShim.addImportMap(importMap);
     importShim(scriptURL)
       .then(() => {
-        console.log(`${scriptURL} worker has been loaded`);
+        // console.log(`${scriptURL} worker has been loaded`);
       })
       .catch(e => {
         setTimeout(() => {

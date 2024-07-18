@@ -1,18 +1,24 @@
 import {EventHandler} from './EventHandler.js';
+import {getImportMap} from './getImportMap.js';
 window.workersReady = {};
 class WorkerWithImportMapViaInlineFrame extends EventHandler {
   debug = false;
   iframe = document.createElement('iframe');
   callbackId = `cb${Math.floor(Math.random()*1000000000)}`;
   terminateId = `tm${Math.floor(Math.random()*1000000000)}`;
+  /**
+   * @param {URL | string} script - The worker URL.
+   * @param {object} [options] - The options.
+   * @param {object|'inherit'} [options.importMap] - The import map or simply `inherit`.
+   * @returns 
+   */
   constructor(script, options = {}) {
     super();
     const {iframe, callbackId, terminateId} = this;
-    if (options.inheritMap) {
-      const mapEl = document.querySelector('script[type="importmap"]');
-      options.map = JSON.parse(mapEl.innerHTML);
+    if (options.importMap === 'inherit') {
+      options.importMap = getImportMap();
     }
-    if (!options.map) {
+    if (!options.importMap) {
       return new window.Worker(script, options);
     }
     window.workersReady[terminateId] = function(window) {
@@ -26,7 +32,7 @@ class WorkerWithImportMapViaInlineFrame extends EventHandler {
     const html = `
 <html>
   <head>
-      <script type="importmap">${JSON.stringify(options.map)}</script>
+      <script type="importmap">${JSON.stringify(options.importMap)}</script>
   </head>
   <body onload="parent.workersReady.${callbackId}(this.window)">
     <script>
