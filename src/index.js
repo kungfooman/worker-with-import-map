@@ -1,3 +1,4 @@
 export * from './EventHandler.js';
-export * from './WorkerFrame.js';
-export * from './WorkerWithImportMap.js';
+export * from './getImportMap.js';
+export * from './WorkerWithImportMapViaInlineFrame.js';
+export * from './WorkerWithImportMapViaBedfordsShim.js';

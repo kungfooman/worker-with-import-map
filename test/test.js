@@ -1,8 +1,8 @@
 // WorkerFrame...
-import {WorkerFrame, WorkerWithImportMap} from 'esm-worker';
+import {WorkerWithImportMapViaInlineFrame, WorkerWithImportMapViaBedfordsShim} from 'esm-worker';
 const url = new URL('./test-workerframe-script.js', import.meta.url);
-const workerFrame = new WorkerWithImportMap(url+"", {type: 'module', importMap: 'inherit'});
-//const workerFrame = new WorkerFrame('./test-workerframe-script.js', {type: 'module', inheritMap: true});
+//const workerFrame = new WorkerWithImportMapViaBedfordsShim(url, {type: 'module', importMap: 'inherit'});
+const workerFrame = new WorkerWithImportMapViaInlineFrame('./test-workerframe-script.js', {type: 'module', inheritMap: true});
 function stringify(_) {
   // return JSON.stringify(_, null, 2);
   return JSON.stringify(_);
@@ -56,6 +56,6 @@ const divs = texts.map(text => {
 });
 grid.append(...divs);
 document.body.prepend(grid);
-const data = {workerFrame, worker, divs, textareas, grid, WorkerFrame, WorkerWithImportMap};
+const data = {workerFrame, worker, divs, textareas, grid, WorkerWithImportMapViaInlineFrame, WorkerWithImportMapViaBedfordsShim};
 console.log(data);
 Object.assign(window, data);

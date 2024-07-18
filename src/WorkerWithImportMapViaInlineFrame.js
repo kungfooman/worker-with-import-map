@@ -1,6 +1,6 @@
 import {EventHandler} from './EventHandler.js';
 window.workersReady = {};
-class WorkerFrame extends EventHandler {
+class WorkerWithImportMapViaInlineFrame extends EventHandler {
   debug = false;
   iframe = document.createElement('iframe');
   callbackId = `cb${Math.floor(Math.random()*1000000000)}`;
@@ -63,4 +63,4 @@ class WorkerFrame extends EventHandler {
     window.workersReady[this.terminateId]();
   }
 }
-export {WorkerFrame};
+export {WorkerWithImportMapViaInlineFrame};
