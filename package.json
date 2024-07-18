@@ -1,6 +1,6 @@
 {
     "name": "worker-with-import-map",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "type": "module",
     "homepage": "https://github.com/kungfooman/worker-with-import-map",
     "description": "Use importmaps in a worker interface",

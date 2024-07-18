@@ -1,7 +1,7 @@
 # Install
 
 ```sh
-npm i worker-with-import-map@1.0.2
+npm i worker-with-import-map
 ```
 
 # Specification
@@ -16,6 +16,23 @@ See https://github.com/WICG/import-maps/issues/2
 
 # Usage
 
+**test.html**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <script type="importmap">{"imports": {
+        "worker-with-import-map": "./node_modules/worker-with-import-map/src/index.js"
+    }}</script>
+    <script type="module" src="test.js"></script>
+  </head>
+</html>
+```
+
 **test.js**
 
 ```js
@@ -28,19 +45,20 @@ const worker = new WorkerWithImportMapViaBedfordsShim('./worker-script.js', {
   importMap: 'inherit',
 });
 worker.postMessage({hello: 'ping'});
-// Sometime later:
-worker.terminate();
 ```
 
 **worker-script.js**
 
 ```js
+// Here you can import anything you want now with import map support!
+import {funny} from 'one-of-your-fancy-libs';
 self.onmessage = (e) => {
-  self.postMessage({haiToo: 'pong'});
+  const haiToo = funny('pong');
+  self.postMessage({haiToo});
 }
 ```
 
-This works in client and server, buildless (aka no build tools like `rollup` or `Webpack` requiered).
+This works in client and server, buildless (aka no build tools like `rollup` or `Webpack` required).
 
 Please just clone this repo and test:
 
