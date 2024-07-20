@@ -11,11 +11,11 @@ class WorkerWithImportMapViaBedfordsShim extends Worker {
       const importMap = getImportMap();
       const baseURL = document.baseURI.split('/').slice(0, -1).join('/');
       if (options.debug) {
-        console.log("WorkerWithImportMapViaBedfordsShim debug information", {importMap, shimURL, baseURL});
+        console.log("WorkerWithImportMapViaBedfordsShim debug information", {importMap, shimURL, baseURL, options});
       }
       // Prevent error: URL object could not be cloned.
-      scriptURL = scriptURL + '';
-      this.postMessage({type: 'init', importMap, scriptURL, baseURL});
+      scriptURL += '';
+      this.postMessage({type: 'init-worker-with-import-map', importMap, scriptURL, baseURL, options});
     } else {
       super(scriptURL, options);
     }
