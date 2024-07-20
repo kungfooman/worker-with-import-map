@@ -1,7 +1,10 @@
 // WorkerFrame...
 import {WorkerWithImportMapViaInlineFrame, WorkerWithImportMapViaBedfordsShim} from 'worker-with-import-map';
-const url = new URL('./test-workerframe-script.js', import.meta.url);
-const workerFrame = new WorkerWithImportMapViaBedfordsShim(url, {type: 'module', importMap: 'inherit'});
+const workerFrame = new WorkerWithImportMapViaBedfordsShim('./test-workerframe-script.js', {
+  type: 'module',
+  importMap: 'inherit',
+  debug: true,
+});
 function stringify(_) {
   // return JSON.stringify(_, null, 2);
   return JSON.stringify(_);
