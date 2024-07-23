@@ -5,7 +5,7 @@ class WorkerWithImportMapViaBedfordsShim extends Worker {
    * @param {WorkerOptions & {importMap?: 'inherit', debug?: boolean}} [options] - The options.
    */
   constructor(scriptURL, options = {}) {
-    if (options.importMap === 'inherit') {
+    if (!options.importMap || options.importMap === 'inherit') {
       const shimURL = new URL('./WorkerWithImportMapViaBedfordsShim.worker.js', import.meta.url) + "";
       super(shimURL);
       const importMap = getImportMap();

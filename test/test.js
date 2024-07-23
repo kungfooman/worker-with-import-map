@@ -1,9 +1,13 @@
 import {Worker} from 'worker-with-import-map';
+const WorkerOriginal = globalThis.Worker;
 const workerShim = new Worker('./test-worker-script-shim.js', {
   type: 'module',
-  importMap: 'inherit',
   debug: true,
 });
+/**
+ * @param {*} _ - The input.
+ * @returns {string} Stringified output.
+ */
 function stringify(_) {
   // return JSON.stringify(_, null, 2);
   return JSON.stringify(_);
@@ -23,7 +27,7 @@ workerShim.addEventListener('message', (e) => {
   textarea.scrollTop = textarea.scrollHeight;
 });
 // Worker...
-const worker = new Worker('./test-worker-script.js', {type: 'module'});
+const worker = new WorkerOriginal('./test-worker-script.js', {type: 'module'});
 worker.onmessage = (e) => {
   // console.log("[worker.onmessage] worker got e.data", e.data);
   const msg = stringify(e.data);
@@ -57,6 +61,6 @@ const divs = texts.map(text => {
 });
 grid.append(...divs);
 document.body.prepend(grid);
-const data = {workerShim, worker, divs, textareas, grid, Worker};
+const data = {workerShim, worker, divs, textareas, grid};
 console.log(data);
 Object.assign(window, data);
