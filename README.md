@@ -36,14 +36,8 @@ See https://github.com/WICG/import-maps/issues/2
 **test.js**
 
 ```js
-import {
-  WorkerWithImportMapViaBedfordsShim,
-  WorkerWithImportMapViaInlineFrame,
-} from 'worker-with-import-map';
-// You can use either one! But WorkerWithImportMapViaInlineFrame has caching issues.
-const worker = new WorkerWithImportMapViaBedfordsShim('./worker-script.js', {
-  importMap: 'inherit',
-});
+import {Worker} from 'worker-with-import-map';
+const worker = new Worker('./worker-script.js');
 worker.postMessage({hello: 'ping'});
 ```
 
