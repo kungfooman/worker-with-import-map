@@ -1,6 +1,5 @@
-// WorkerFrame...
-import {WorkerWithImportMapViaInlineFrame, WorkerWithImportMapViaBedfordsShim} from 'worker-with-import-map';
-const workerFrame = new WorkerWithImportMapViaBedfordsShim('./test-workerframe-script.js', {
+import {Worker} from 'worker-with-import-map';
+const workerShim = new Worker('./test-worker-script-shim.js', {
   type: 'module',
   importMap: 'inherit',
   debug: true,
@@ -9,15 +8,15 @@ function stringify(_) {
   // return JSON.stringify(_, null, 2);
   return JSON.stringify(_);
 }
-workerFrame.onmessage = (e) => {
-  // console.log("[workerFrame.onmessage] workerFrame got e.data", e.data);
+workerShim.onmessage = (e) => {
+  // console.log("[workerShim.onmessage] workerShim got e.data", e.data);
   const msg = stringify(e.data);
   const textarea = textareas[0];
   textarea.value += `${msg}\n`;
   textarea.scrollTop = textarea.scrollHeight;
 };
-workerFrame.addEventListener('message', (e) => {
-  // console.log("[workerFrame.addEventListener('message', cb)] workerFrame got e.data", e.data);
+workerShim.addEventListener('message', (e) => {
+  // console.log("[workerShim.addEventListener('message', cb)] workerShim got e.data", e.data);
   const msg = stringify(e.data);
   const textarea = textareas[1];
   textarea.value += `${msg}\n`;
@@ -39,7 +38,7 @@ worker.addEventListener('message', (e) => {
   textarea.value += `${msg}\n`;
   textarea.scrollTop = textarea.scrollHeight;
 });
-const texts = ['WorkerFrame onmessage', 'WorkerFrame addEventListener', 'Worker onmessage', 'Worker addEventListener'];
+const texts = ['WorkerWithImportMap onmessage', 'WorkerWithImportMap addEventListener', 'Worker onmessage', 'Worker addEventListener'];
 const grid = document.createElement('div');
 grid.style.display = 'grid';
 grid.style.gridTemplateColumns = '1fr 1fr';
@@ -58,6 +57,6 @@ const divs = texts.map(text => {
 });
 grid.append(...divs);
 document.body.prepend(grid);
-const data = {workerFrame, worker, divs, textareas, grid, WorkerWithImportMapViaInlineFrame, WorkerWithImportMapViaBedfordsShim};
+const data = {workerShim, worker, divs, textareas, grid, Worker};
 console.log(data);
 Object.assign(window, data);
